@@ -10,9 +10,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Custom authentication provider for Spring Security.
+ */
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
+    /**
+     * Authenticates the user based on the provided authentication object.
+     *
+     * @param authentication the authentication request object
+     * @return a fully authenticated object including credentials
+     * @throws AuthenticationException if authentication fails
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // Get the username and password from the authentication object
@@ -29,6 +39,12 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
+    /**
+     * Checks if this authentication provider supports the given authentication type.
+     *
+     * @param authentication the authentication type
+     * @return true if the authentication type is supported, false otherwise
+     */
     @Override
     public boolean supports(Class<?> authentication) {
         // Return true if the authentication object is of type UsernamePasswordAuthenticationToken
