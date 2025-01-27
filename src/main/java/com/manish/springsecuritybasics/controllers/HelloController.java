@@ -12,4 +12,9 @@ public class HelloController {
     public ResponseEntity<String> hello() {
         return new ResponseEntity<>("Spring Security Rocks", HttpStatus.OK);
     }
+
+    @GetMapping("/bye")
+    public ResponseEntity<String> bye() {
+        return new ResponseEntity<>("Bye... See you soon !", HttpStatus.OK);
+    }
 }

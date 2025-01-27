@@ -1,14 +1,10 @@
-package com.manish.springsecuritybasics.config;
+package com.manish.springsecuritybasics.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -22,22 +18,23 @@ public class MySecurityConfig {
      *
      * @return the user details service
      */
-    @Bean
-    UserDetailsService userDetailsService() {
-        // Create an in-memory user details manager
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-
-        // Define a user with username password (encoded using BCrypt), and authority "read"
-        UserDetails userDetail = User
-                .withUsername("manish")
-                .password(this.passwordEncoder().encode("manish"))
-                .authorities("read")
-                .build();
-
-        // Add the user to the in-memory user details manager
-        userDetailsService.createUser(userDetail);
-        return userDetailsService;
-    }
+// Commented out the userDetailsService() method because we are using AuthenticationProvider instead of UserDetailsService here: {@link com.manish.springsecuritybasics.security.MyAuthenticationProvider}
+//    @Bean
+//    UserDetailsService userDetailsService() {
+//        // Create an in-memory user details manager
+//        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
+//
+//        // Define a user with username password (encoded using BCrypt), and authority "read"
+//        UserDetails userDetail = User
+//                .withUsername("manish")
+//                .password(this.passwordEncoder().encode("manish"))
+//                .authorities("read")
+//                .build();
+//
+//        // Add the user to the in-memory user details manager
+//        userDetailsService.createUser(userDetail);
+//        return userDetailsService;
+//    }
 
     /**
      * Configures a password encoder bean.
@@ -62,7 +59,9 @@ public class MySecurityConfig {
         http
                 // Ensure that all requests are authenticated
                 .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
+                       //  authorizeRequests.anyRequest().authenticated() // This will allow all authenticated users to access all the endpoints
+                        authorizeRequests
+                                .requestMatchers("/hello").authenticated().anyRequest().denyAll() // This will allow only authenticated users to access the /hello endpoint
                 )
                 // Use HTTP Basic authentication with default settings
                 .httpBasic(Customizer.withDefaults());
