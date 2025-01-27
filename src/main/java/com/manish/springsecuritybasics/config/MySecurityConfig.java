@@ -66,7 +66,7 @@ public class MySecurityConfig {
                 )
                 // Use HTTP Basic authentication with default settings
                 .httpBasic(Customizer.withDefaults());
-        return http.build(); 
+        return http.build();
     }
 
 }
