@@ -27,7 +27,7 @@ public class MySecurityConfig {
         // Create an in-memory user details manager
         InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
 
-        // Define a user with username "manish", password "manish" (encoded using BCrypt), and authority "read"
+        // Define a user with username password (encoded using BCrypt), and authority "read"
         UserDetails userDetail = User
                 .withUsername("manish")
                 .password(this.passwordEncoder().encode("manish"))
