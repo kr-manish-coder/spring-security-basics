@@ -6,6 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * Configuration class for Spring Security.
@@ -65,6 +66,10 @@ public class MySecurityConfig {
                 )
                 // Use HTTP Basic authentication with default settings
                 .httpBasic(Customizer.withDefaults());
+
+        // Add a custom filter before the BasicAuthenticationFilter
+        http.addFilterBefore(new MySecurityFilter(), BasicAuthenticationFilter.class);
+
         return http.build();
     }
 
